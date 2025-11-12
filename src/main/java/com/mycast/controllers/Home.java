@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Home {
-
     @GetMapping("/{name}")
     public String helloName(@PathVariable("name") String name){
+        Movies moviesController = new Movies();
+        moviesController.getMovies();
         return String.format("Hello from Spring app, %s!", name);
     }
 }
