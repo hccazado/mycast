@@ -11,17 +11,9 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class MycastApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(ConsumingRestApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(MycastApplication.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(MycastApplication.class, args);
-	}
-
-    @Bean
-    public RestTemplate restTemplate(RestTemplateBuilder builder) {
-        return builder.build();
+    public static void main(String[] args) {
+        SpringApplication.run(MycastApplication.class, args);
     }
-
-
-
 }

@@ -1,8 +1,12 @@
 package com.mycast.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.beans.factory.annotation.Value;
+
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record Movies (String type, Value value){
-}
+public record Movies (int page,
+                      List<MovieValue> results,
+                      int total_pages,
+                      int total_results)
+{}
