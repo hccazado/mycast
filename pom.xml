@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mycast</groupId>
-	<artifactId>demo</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId></artifactId>
+	<version>0.0.1</version>
 	<name>mycast</name>
 	<description>My Cast</description>
 	<url/>
