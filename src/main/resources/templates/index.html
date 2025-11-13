@@ -8,8 +8,11 @@
     <header>
         <h1>Mycast App</h1>
     </header>
-<section>
-
+<section class="wrapper">
+    <h2>Top rated Movies</h2>
+    <ul th:each="movie : ${movies.results}">
+        <li><a th:href="@{/movie/{id}(id=${movie.id})}"><span th:text="${movie.original_title}"></span></a></li>
+    </ul>
 </section>
 <footer>
     <p>Heitor C. Cazado</p>

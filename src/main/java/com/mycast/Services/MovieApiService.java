@@ -32,4 +32,22 @@ public class MovieApiService {
                 .retrieve()
                 .body(MovieValue.class);
     }
+
+    public Movies findMoviesPopular(){
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/movie/popular")
+                        .build())
+                .retrieve()
+                .body(Movies.class);
+    }
+
+    public Movies findMoviesTopRated(){
+        return restClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/movie/top_rated")
+                        .build())
+                .retrieve()
+                .body(Movies.class);
+    }
 }
