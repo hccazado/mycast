@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="icon" th:href="@{/images/favicon.ico}" type="image/x-icon"/>
+    <title layout:fragment="title">MyCast</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg mb-4">
+            <div class="container-fluid">
+                <h1><a th:href="@{/}" th:text="MyCast" class="navbar-brand"></a></h1>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" th:href="@{/}">Home</a>
+                        <a class="nav-link active" aria-current="page" th:href="@{/favorites/}">Favorites</a>
+                    </div>
+                    <div class="d-flex align-items-center ms-auto">
+
+                        <a class="nav-link" th:if="${session.user == null}" th:href="@{/login}">
+                            Login
+                        </a>
+
+                        <!-- Show only when logged in -->
+                        <span class="navbar-text me-3" th:if="${session.user != null}">
+                            Hello, <strong th:text="${session.user.userName}"></strong>
+                        </span>
+
+                        <a class="nav-link" th:if="${session.user != null}" th:href="@{/logout}">
+                            Logout
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div th:if="${message}" class="alert alert-info text-center mt-3">
+        <span th:text="${message}"></span>
+    </div>
+    <div th:if="${error}" class="alert alert-danger text-center mt-3">
+        <span th:text="${error}"></span>
+    </div>
+<section class="p-2" layout:fragment="content">
+    <h2>Top rated Movies</h2>
+    <ul th:each="movie : ${movies.results}">
+        <li><a th:href="@{/movie/{id}(id=${movie.id})}"><span th:text="${movie.original_title}"></span></a></li>
+    </ul>
+</section>
+<footer class="text-center text-lg-start mt-2 mb-0 pb-0">
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.05);">
+        Heitor C. Cazado
+    </div>
+</footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>

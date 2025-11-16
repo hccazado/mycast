@@ -1,20 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="'Mycast - '+${movie.original_title}"></title>
+    <title layout:fragment="title" th:text="'Mycast - '+${movie.original_title}"></title>
 </head>
 <body>
-<header>
-    <h1><a th:href="@{/}" th:text="MyCast"></a></h1>
-</header>
-<section class="wrapper">
-    <h2 th:text="${movie.original_title}+' Details'"></h2>
-    <img loading="lazy" th:src="'https://image.tmdb.org/t/p/original/'+${movie.poster_path}" th:alt="${movie.original_title}+' Poster'"/>
-    <p th:text="${movie.overview}"></p>
+<section class="bg-body-tertiary" layout:fragment="content">
+    <h2 th:text="${movie.original_title}+' Details'" class="text-center mb-3"></h2>
+    <div class="d-flex justify-content-between p-2 gap-2">
+        <img loading="lazy"
+             th:src="'https://image.tmdb.org/t/p/original/'+${movie.poster_path}"
+             th:alt="${movie.original_title}+' Poster'"
+             class="shadow-sm p-3 mb-5 bg-body rounded movie-info-img"/>
+        <div class="align-self-center">
+             <h3>Overview</h3><p th:text="${movie.overview}"></p>
+            <p class="display-inline" th:text="'Release Date: '+${movie.release_date}"> </p>
+            <form th:action="@{/favorites/add}" method="POST">
+                <input type="hidden" name="id" th:value="${movie.id}">
+                <button type="submit" class="btn btn-primary">Add Favorite</button>
+            </form>
+        </div>
+
+    </div>
 </section>
-<footer>
-    <p>Heitor C. Cazado</p>
-</footer>
 </body>
 </html>

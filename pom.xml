@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.mycast</groupId>
-	<artifactId></artifactId>
+	<artifactId>mycast</artifactId>
 	<version>0.0.1</version>
 	<name>mycast</name>
 	<description>My Cast</description>
@@ -33,6 +33,10 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

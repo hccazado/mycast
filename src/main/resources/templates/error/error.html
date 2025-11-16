@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title layout:fragment="title">My Cast - Error</title>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5 mb-5">
+    <div class="alert alert-danger text-center">
+        <h2>Oops! Something went wrong!</h2>
+    </div>
+    <a class="mt-3 mb-3" th:href="@{/}">You must return to home page</a>
+</section>
+</body>
+</html>
