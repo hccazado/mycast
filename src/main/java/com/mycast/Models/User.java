@@ -6,7 +6,7 @@ import java.util.Set;
 public class User {
     private String userName;
     private String password;
-    private Set<MovieValue> favotires = new HashSet<>();
+    private Set<MovieValue> favotires = new HashSet<>(); //a list of favorite movies. Actually as a hashset to prevent duplicate items.
 
     public User() {
     }
@@ -41,7 +41,9 @@ public class User {
     }
 
     public boolean removeFavotire(int id) {
+        //iterates through the user's favorite movies list and remove the movie with same id
+        //the list doesn't have duplicate items since it's a HashSet
         boolean removed = favotires.removeIf(movie -> movie.id() == id);
-        return removed;
+        return removed; //returns operation status
     }
 }
