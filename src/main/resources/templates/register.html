@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}">
+<head>
+    <title layout:fragment="title">My Cast - Register</title>
+</head>
+<body>
+<section layout:fragment="content" class="container mt-5 mb-5">
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-4">
+
+            <h2 class="text-center mb-3">Register</h2>
+
+            <form th:action="@{/register}" th:object="${user}" method="POST">
+
+                <div class="mb-3">
+                    <label for="firstName">First name</label>
+                    <input id="firstName" name="firstName"
+                           class="form-control"  th:field="*{firstName}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="lastName">Last name</label>
+                    <input id="lastName" name="lastName"
+                           class="form-control" required  th:field="*{lastName}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email"  th:field="*{email}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="userName">Username</label>
+                    <input id="userName" name="userName"
+                           class="form-control" required  th:field="*{userName}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="password">Password</label>
+                    <input id="password" name="password" type="password"
+                           class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Create your account!</button>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

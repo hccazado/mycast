@@ -2,6 +2,7 @@ package com.mycast.Controllers;
 
 import com.mycast.Models.MovieValue;
 import com.mycast.Models.User;
+import com.mycast.Services.FavoriteService;
 import com.mycast.Services.MovieApiService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,21 +11,24 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 @Controller
 @RequestMapping("/favorites") //mapping a get route to favorite's page
 public class FavoriteController {
     //indicating to Spring that movieApiService is a bean
     @Autowired
-    private final MovieApiService movieApiService;
+    private final FavoriteService favoriteService;
 
     //constructor required by Spring to user the movieApiService bean
-    public FavoriteController(MovieApiService movieApiService) {
-        this.movieApiService = movieApiService;
+    public FavoriteController(FavoriteService favoriteService) {
+        this.favoriteService = favoriteService;
     }
 
     //mapping Get route for displaying the favorites page
     @GetMapping({"", "/"})
-    public String displayFavorites(Model model, RedirectAttributes redirectAttributes, HttpSession session){
+    public String displayFavorites(Model model, RedirectAttributes redirectAttributes, HttpSession session) throws ExecutionException, InterruptedException {
         User user = (User) session.getAttribute("user"); //fetching the user from session
 
         //redirecting the user to the login page if there's no active session
@@ -33,13 +37,14 @@ public class FavoriteController {
             return "redirect:/login";
         }
         //returning user's favorite movies to the template
-        model.addAttribute("movies", user.getFavorites());
+        List<MovieValue> movies = favoriteService.getFavorites(user.getUserName());
+        model.addAttribute("movies", movies);
         return "favorites";
     }
 
     //mapping Post route for adding a movie to user's favorites
     @PostMapping("/add")
-    public String addFavorite(@RequestParam int id, RedirectAttributes redirectAttributes, HttpSession session) {
+    public String addFavorite(@RequestParam int id, RedirectAttributes redirectAttributes, HttpSession session) throws ExecutionException, InterruptedException {
         //checks if the user has an active session and call the responsible method from the user's model to
         //add the movie to its favorite list.
         User user = (User) session.getAttribute("user");
@@ -49,8 +54,8 @@ public class FavoriteController {
             redirectAttributes.addFlashAttribute("error","You need to login first!");
             return "redirect:/login";
         }
-        MovieValue movie = movieApiService.findMovieById(id); // fetch movie details
-        boolean added = user.addFavorite(movie); //adding movie to favorites
+        //MovieValue movie = movieApiService.findMovieById(id); // fetch movie details
+        boolean added = favoriteService.addFavorite(user.getUserName() ,id); //adding movie to favorites
 
         //redirecting the user to the favorite's page with appropriated message
         if(added){
@@ -65,7 +70,7 @@ public class FavoriteController {
 
     //mapping Post route for removing a movie from favorites
     @PostMapping("/remove")
-    public String removeFavorite(@RequestParam int id, RedirectAttributes redirectAttributes, HttpSession session){
+    public String removeFavorite(@RequestParam int id, RedirectAttributes redirectAttributes, HttpSession session) throws ExecutionException, InterruptedException{
         //checks if the user has an active session, and calls the responsible method from the user's model to
         //remove the movie from its favorite list.
         User user = (User) session.getAttribute("user");
@@ -76,8 +81,7 @@ public class FavoriteController {
             return "redirect:/login";
         }
 
-        boolean removed = user.removeFavotire(id);//removing movie from favorites
-
+        boolean removed = favoriteService.removeFavorite(user.getUserName() ,id);
         //redirecting the user to the favorite's page with appropriated message
         if(removed){
             redirectAttributes.addFlashAttribute("message", "Movie removed from favorites!");
