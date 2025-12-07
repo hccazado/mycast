@@ -8,9 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -36,8 +33,8 @@ public class UserService {
 
             // wait for Firestore to return the created document
             future.get();
-            System.out.println("User created successfully: " + user.getUserName());
-            return user; // return generated document ID
+            // return generated document ID
+            return user;
 
         } catch (InterruptedException e) {
         // Handle interruption (e.g., thread was told to stop waiting)
@@ -90,8 +87,9 @@ public class UserService {
         return null; // wrong password
     }
 
-    //Auxiliary method to insert a new id to user's favorites list
+    //Auxiliary method to insert a new movie id to user's favorites list
     public boolean addFavoriteId(String username, int id) throws ExecutionException, InterruptedException {
+        //fetching user's document ID
         String documentId = getDocumentId(username);
 
         if(documentId == null){
@@ -129,6 +127,7 @@ public class UserService {
 
     //Auxiliary method to remove an id from user's favorites list
     public boolean removeFavoriteId(String username, int id) throws ExecutionException, InterruptedException{
+        //fetching user's document ID
         String documentId = getDocumentId(username);
 
         if(documentId == null){
@@ -136,7 +135,7 @@ public class UserService {
         }
 
         try {
-            // Using user's document ID for the update
+            // Using user's documentId for the update
             firestore.collection("users").document(documentId)
                     .update("favoriteMovies", FieldValue.arrayRemove(id))
                     .get();
@@ -152,7 +151,6 @@ public class UserService {
             } else {
                 System.err.println("Unexpected error during Firestore write for user: " + e.getMessage());
             }
-
             // Return false on any write failure
             return false;
 
@@ -164,7 +162,7 @@ public class UserService {
         }
     }
 
-    //Auxiliary method to fetch full user document
+    //Auxiliary method to fetch full user document by its username
     public User findByUserName(String username) throws ExecutionException, InterruptedException{
         ApiFuture<QuerySnapshot> future = firestore.collection("users")
                 .whereEqualTo("userName", username)
@@ -177,14 +175,11 @@ public class UserService {
             return null;
         }
 
-        // Converting the first object to a User object
+        // Getting the first document if more than one
         DocumentSnapshot document = querySnapshot.getDocuments().get(0);
 
-        // Crucially, if your User model uses @DocumentId, set the ID before returning
+        // Converting the user document to a User object
         User user = document.toObject(User.class);
-        // You may need to set the document ID if your User model uses the @DocumentId annotation
-        // user.setId(document.getId());
-
         return user;
     }
 
@@ -200,8 +195,7 @@ public class UserService {
         if (querySnapshot.isEmpty()) {
             return null; // User not found
         }
-
-        // Get the first (and only) document and return its ID
+        // Get the first document and return its ID
         return querySnapshot.getDocuments().get(0).getId();
     }
 }

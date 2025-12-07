@@ -7,11 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class})
-public class MycastApplication {
+public class MyCastApplication {
 
-    private static final Logger log = LoggerFactory.getLogger(MycastApplication.class);
+    private static final Logger log = LoggerFactory.getLogger(MyCastApplication.class);
 
     public static void main(String[] args) {
-        SpringApplication.run(MycastApplication.class, args);
+        SpringApplication.run(MyCastApplication.class, args);
     }
 }

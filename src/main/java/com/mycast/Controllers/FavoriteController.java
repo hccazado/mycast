@@ -54,7 +54,6 @@ public class FavoriteController {
             redirectAttributes.addFlashAttribute("error","You need to login first!");
             return "redirect:/login";
         }
-        //MovieValue movie = movieApiService.findMovieById(id); // fetch movie details
         boolean added = favoriteService.addFavorite(user.getUserName() ,id); //adding movie to favorites
 
         //redirecting the user to the favorite's page with appropriated message

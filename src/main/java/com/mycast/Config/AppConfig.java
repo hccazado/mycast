@@ -38,7 +38,7 @@ public class AppConfig {
     @Bean
     public FirebaseApp firebaseApp(@Value("${google.cloud.firestore.credentials.location}") Resource serviceAccountResource ) throws IOException {
 
-        //
+        //reading data from
         InputStream serviceAccount = serviceAccountResource.getInputStream();
 
         FirebaseOptions options = FirebaseOptions.builder()

@@ -16,7 +16,10 @@
                 <div class="mb-3">
                     <label for="firstName">First name</label>
                     <input id="firstName" name="firstName"
-                           class="form-control"  th:field="*{firstName}" required>
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('firstName')} ? 'is-invalid' : ''"
+                           th:field="*{firstName}" required>
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></div>
                 </div>
 
                 <div class="mb-3">
@@ -27,19 +30,29 @@
 
                 <div class="mb-3">
                     <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email"  th:field="*{email}">
+                    <input type="email"
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''"
+                           id="email"  th:field="*{email}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="userName">Username</label>
                     <input id="userName" name="userName"
-                           class="form-control" required  th:field="*{userName}">
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('userName')} ? 'is-invalid' : ''"
+                           required  th:field="*{userName}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label for="password">Password</label>
                     <input id="password" name="password" type="password"
-                           class="form-control" required>
+                           class="form-control"
+                           th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''"
+                           required th:field="*{password}">
+                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></div>
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Create your account!</button>
             </form>

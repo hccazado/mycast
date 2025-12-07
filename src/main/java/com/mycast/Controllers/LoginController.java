@@ -3,9 +3,11 @@ package com.mycast.Controllers;
 import com.mycast.Models.User;
 import com.mycast.Services.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
@@ -51,12 +53,18 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public String submitRegister(@ModelAttribute User user, Model model){
-        model.addAttribute("user", user);
-        String hashPwd = passwordEncoder.encode(user.getPassword());
-        user.setPassword(hashPwd);
+    public String submitRegister(@Valid @ModelAttribute("user") User user, BindingResult bindingResult){
+
+        //validating form fields against User model annotations
+        if(bindingResult.hasErrors()){
+            return "register";
+        }
+        //password hashing
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        //pushing the new user to firebase
         userService.newUser(user);
-        return "register";
+        //redirecting user to login page
+        return "redirect:/login";
     }
 
     //mapping a Get route to terminate the user session
